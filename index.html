@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DARKNOVA - Code Obfuscator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/javascript-obfuscator@4.1.1/dist/index.browser.js"></script>
+</head>
+<body>
+<div class="orb o1"></div>
+<div class="orb o2"></div>
+<div id="app">
+  <div id="hdr">
+    <div class="brand">
+      <div class="b-logo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      </div>
+      <div>
+        <div class="b-name">DARKNOVA</div>
+        <div class="b-sub">CODE OBFUSCATOR &middot; UNLIMITED &middot; BROWSER-POWERED</div>
+      </div>
+    </div>
+    <div class="hdr-r">
+      <div class="pill"><span class="pdot"></span>NO LIMITS</div>
+      <button class="ibtn" id="themeBtn" title="Toggle theme">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+  <div id="ctrl">
+    <div class="tab-row">
+      <button class="tab on" data-tab="js">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>JavaScript
+      </button>
+      <button class="tab" data-tab="html">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>HTML (scripts)
+      </button>
+    </div>
+    <div class="opts-row">
+      <div class="cgrp">
+        <div class="clbl">Protection Level</div>
+        <div class="prow" id="prow">
+          <div class="pp on" data-p="default">Default</div>
+          <div class="pp" data-p="low">Low</div>
+          <div class="pp" data-p="medium">Medium</div>
+          <div class="pp" data-p="high">High</div>
+          <div class="pp" data-p="extreme">Extreme &#128293;</div>
+        </div>
+      </div>
+      <div class="cgrp" style="margin-left:8px">
+        <div class="clbl">Upload File</div>
+        <label class="upload-btn" for="fileInput">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          UPLOAD .JS / .HTML
+        </label>
+        <input type="file" id="fileInput" accept=".js,.html,.htm">
+      </div>
+      <button class="run-btn" id="runBtn">
+        <div class="spin"></div>
+        <span class="btxt" style="display:flex;align-items:center;gap:6px">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>OBFUSCATE
+        </span>
+      </button>
+    </div>
+  </div>
+  <div id="prog"></div>
+  <div id="editors">
+    <div class="pane">
+      <div class="ptop">
+        <div class="ptitle"><span class="dot di"></span>SOURCE CODE</div>
+        <div class="pbtns">
+          <button class="mini" id="pasteBtn"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>PASTE</button>
+          <button class="mini" id="clearBtn"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg>CLEAR</button>
+        </div>
+      </div>
+      <div class="ed-wrap">
+        <div class="lns" id="inLN"><span>1</span></div>
+        <textarea id="srcTa" spellcheck="false" placeholder="// Paste your JS or HTML here, or upload a file above.&#10;// Runs 100% in your browser. No limits. Large files supported.&#10;&#10;function example(name) {&#10;  const msg = 'Hello ' + name;&#10;  return msg;&#10;}"></textarea>
+      </div>
+      <div class="pbot">
+        <div class="meta"><span id="inL">1 line</span><span id="inC">0 chars</span></div>
+        <div class="meta"><span id="inLang" style="color:var(--acc2)">JS</span></div>
+      </div>
+    </div>
+    <div class="pane" id="outPane">
+      <div class="ptop">
+        <div class="ptitle"><span class="dot do"></span>OBFUSCATED OUTPUT</div>
+        <div class="pbtns">
+          <button class="mini" id="copyBtn"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>COPY</button>
+          <button class="mini" id="dlBtn"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>SAVE</button>
+        </div>
+      </div>
+      <div class="ed-wrap">
+        <div class="lns" id="outLN"><span>1</span></div>
+        <textarea id="outTa" readonly spellcheck="false" placeholder="// Output appears here...&#10;// Press Ctrl+Enter or click OBFUSCATE"></textarea>
+      </div>
+      <div class="pbot">
+        <div class="meta"><span id="outL">&#8212;</span><span id="outC">&#8212;</span></div>
+        <div class="meta"><span id="outSz" style="color:var(--green)">READY</span></div>
+      </div>
+    </div>
+  </div>
+  <div id="sbar">
+    <span class="sdot" id="sdot"></span>
+    <span id="stxt">Ready &#8212; paste code or upload a file, then hit Obfuscate</span>
+    <div class="sr"><span class="kbd">Ctrl+Enter</span><span style="color:var(--txt3)">to run</span></div>
+  </div>
+</div>
+<div id="toast"></div>
+<script src="script.min.js"></script>
+</body>
+</html>
