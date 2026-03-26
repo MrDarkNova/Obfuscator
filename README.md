@@ -1,4 +1,4 @@
-<p align="center">
+p align="center">
   <img src="https://via.placeholder.com/80x80?text=DN" width="80" style="border-radius:50%">
 </p>
 
@@ -14,9 +14,9 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Version-1.0.0-blue?style=flat-square">
-  <img src="https://img.shields.io/github/deployments/MrDarkNova/DarkNova-Obfuscator/github-pages?label=GitHub%20Pages&style=flat-square&color=2ea44f">
-  <img src="https://img.shields.io/github/license/MrDarkNova/DarkNova-Obfuscator?style=flat-square&color=red">
-  <img src="https://img.shields.io/github/last-commit/MrDarkNova/DarkNova-Obfuscator?style=flat-square">
+  <img src="https://img.shields.io/github/deployments/MrDarkNova/Obfuscator/github-pages?label=GitHub%20Pages&style=flat-square&color=2ea44f">
+  <img src="https://img.shields.io/github/license/MrDarkNova/Obfuscator?style=flat-square&color=red">
+  <img src="https://img.shields.io/github/last-commit/MrDarkNova/Obfuscator?style=flat-square">
 </p>
 
 ---
@@ -68,6 +68,6 @@
 
 ### 💻 Local (offline)
 ```bash
-git clone https://github.com/MrDarkNova/DarkNova-Obfuscator.git
-cd DarkNova-Obfuscator
+git clone https://github.com/MrDarkNova/Obfuscator.git
+cd Obfuscator
 python3 -m http.server 8000
