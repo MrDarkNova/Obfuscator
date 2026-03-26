@@ -6,7 +6,7 @@
 
 <p align="center">
   <strong>Browser‑powered JavaScript & HTML obfuscator – unlimited, free, and fully local.</strong><br>
-  <a href="https://mrdarknova.github.io/DarkNova-Obfuscator">🌐 Live Demo</a> •
+  <a href="https://mrdarknova.github.io/Obfuscator">🌐 Live Demo</a> •
   <a href="#-features">✨ Features</a> •
   <a href="#-obfuscation-levels">⚙️ Levels</a> •
   <a href="#-how-to-use">🚀 How to Use</a>
@@ -60,7 +60,7 @@
 ## 🚀 How to Use
 
 ### 🔗 Online (GitHub Pages)
-1. Visit [https://mrdarknova.github.io/DarkNova-Obfuscator](https://mrdarknova.github.io/DarkNova-Obfuscator)
+1. Visit [https://mrdarknova.github.io/Obfuscator](https://mrdarknova.github.io/Obfuscator)
 2. Paste your JavaScript or HTML code, or upload a file.
 3. Choose a protection level.
 4. Click **OBFUSCATE** (or press `Ctrl+Enter`).
