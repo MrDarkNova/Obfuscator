@@ -1,73 +1,78 @@
-p align="center">
-  <img src="https://via.placeholder.com/80x80?text=DN" width="80" style="border-radius:50%">
-</p>
+<div align="center">
 
-<h1 align="center">🔒 DarkNova Code Obfuscator</h1>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=f87171&height=200&section=header&text=DarkNova%20Obfuscator&fontSize=55&fontColor=ffffff&fontAlignY=38&desc=JavaScript%20Code%20Protection%20Tool%20by%20Mr.%20Darknova&descAlignY=58&descColor=fca5a5" width="100%"/>
 
-<p align="center">
-  <strong>Browser‑powered JavaScript & HTML obfuscator – unlimited, free, and fully local.</strong><br>
-  <a href="https://mrdarknova.github.io/Obfuscator">🌐 Live Demo</a> •
-  <a href="#-features">✨ Features</a> •
-  <a href="#-obfuscation-levels">⚙️ Levels</a> •
-  <a href="#-how-to-use">🚀 How to Use</a>
-</p>
+<br/>
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Version-1.0.0-blue?style=flat-square">
-  <img src="https://img.shields.io/github/deployments/MrDarkNova/Obfuscator/github-pages?label=GitHub%20Pages&style=flat-square&color=2ea44f">
-  <img src="https://img.shields.io/github/license/MrDarkNova/Obfuscator?style=flat-square&color=red">
-  <img src="https://img.shields.io/github/last-commit/MrDarkNova/Obfuscator?style=flat-square">
-</p>
+[![HTML](https://img.shields.io/badge/HTML-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
+[![CSS](https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com)
+
+<br/>
+
+> **Transform your JavaScript source code into unreadable, protected output — entirely in the browser. No server. No limits.**
+
+<br/>
+
+[🔗 Live Demo](https://obfuscator.mrdarknova.indevs.in) · [🐛 Report Bug](https://github.com/MrDarkNova/Obfuscator/issues) · [✨ Request Feature](https://github.com/MrDarkNova/Obfuscator/issues)
+
+<br/>
+
+</div>
 
 ---
 
 ## ✨ Features
 
+| Feature | Description |
+|--------|-------------|
+| 🔒 **Code Obfuscation** | Transforms JavaScript into unreadable, protected output |
+| ⚙️ **Multiple Protection Levels** | Choose from light, medium, or heavy obfuscation strength |
+| 📁 **Unlimited File Size** | No file size cap — obfuscate entire codebases |
+| 🌐 **100% Browser-Based** | No server, no uploads — everything runs locally in your browser |
+| 📋 **Copy & Download** | Instantly copy or download your obfuscated output |
+| 🛡️ **IP Protection** | Protects your logic, algorithms, and proprietary code from theft |
+| 🌙 **Dark UI** | Clean dark interface built on the DarkNova design system |
+
+---
+
+## 🛠️ Tech Stack
+
 <div align="center">
-  <table>
-     <tr align="center">
-       <td>🌐 <b>100% Client‑Side</b><br>No server, no uploads – your code stays local</td>
-       <td>⚡ <b>Unlimited Size</b><br>Obfuscate files of any size</td>
-       <td>🔒 <b>5 Protection Levels</b><br>From Default to Extreme</td>
-     </tr>
-     <tr align="center">
-       <td>📄 <b>HTML Support</b><br>Obfuscate `<script>` blocks inside HTML</td>
-       <td>📁 <b>File Upload</b><br>Drag & drop or upload .js / .html</td>
-       <td>💾 <b>Save & Copy</b><br>One‑click download or clipboard copy</td>
-     </tr>
-     <tr align="center">
-       <td>🎨 <b>Dark/Light Theme</b><br>Persistent preference</td>
-       <td>📋 <b>Line Numbers</b><br>Sync scrolling and line count</td>
-       <td>🚀 <b>Keyboard Shortcut</b><br>`Ctrl+Enter` to obfuscate</td>
-     </tr>
-   </table>
+
+| Layer | Technology |
+|-------|-----------|
+| **Frontend** | Vanilla HTML + CSS + JavaScript |
+| **Obfuscation Engine** | javascript-obfuscator (browser build) |
+| **Deployment** | Vercel |
+
 </div>
 
 ---
 
-## ⚙️ Obfuscation Levels
+## 👤 Author
 
-| Level | Description | Protection |
-|-------|-------------|------------|
-| **Default** | Standard obfuscation with string array & compaction | ★☆☆☆☆ |
-| **Low** | Basic transformation, good for readability | ★★☆☆☆ |
-| **Medium** | Control flow flattening + dead code injection | ★★★☆☆ |
-| **High** | Debug protection, self‑defending, string encoding | ★★★★☆ |
-| **Extreme** | All features maxed – RC4 strings, numbers to expressions, full self‑defense | ★★★★★ |
+<div align="center">
+
+**Victor Kumba** — Mr. Darknova
+
+300-Level Student @ AFIT Kaduna · Full-Stack Developer · Cybersecurity Analyst
+
+[![GitHub](https://img.shields.io/badge/GitHub-MrDarkNova-7c5cfc?style=for-the-badge&logo=github)](https://github.com/MrDarkNova)
+[![Portfolio](https://img.shields.io/badge/Portfolio-mrdarknova.indevs.in-a78bfa?style=for-the-badge&logo=vercel)](https://mrdarknova.indevs.in)
+[![WhatsApp](https://img.shields.io/badge/WhatsApp-Channel-25D366?style=for-the-badge&logo=whatsapp)](https://whatsapp.com/channel/0029Vb6uVXJ9WtBy78egih3E)
+
+</div>
 
 ---
 
-## 🚀 How to Use
+<div align="center">
 
-### 🔗 Online (GitHub Pages)
-1. Visit [https://mrdarknova.github.io/Obfuscator](https://mrdarknova.github.io/Obfuscator)
-2. Paste your JavaScript or HTML code, or upload a file.
-3. Choose a protection level.
-4. Click **OBFUSCATE** (or press `Ctrl+Enter`).
-5. Copy the output or download it as a file.
+<img src="https://capsule-render.vercel.app/api?type=waving&color=f87171&height=100&section=footer" width="100%"/>
 
-### 💻 Local (offline)
-```bash
-git clone https://github.com/MrDarkNova/Obfuscator.git
-cd Obfuscator
-python3 -m http.server 8000
+**© 2026 Victor Kumba · Crafted with precision.**
+
+⭐ Star this repo if you found it useful!
+
+</div>
