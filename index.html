@@ -1,126 +1,31 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" data-theme="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DARKNOVA - Code Obfuscator</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,520;9..144,640&family=IBM+Plex+Mono:wght@400;500&family=Outfit:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-<script src="https://cdn.jsdelivr.net/npm/javascript-obfuscator@4.1.1/dist/index.browser.js"></script>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#0a0d0c">
+  <meta name="description" content="Obfuscate JavaScript privately in your browser. Your source code stays on your device.">
+  <title>DarkNova Obfuscator — Private JavaScript Protection</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/javascript-obfuscator@4.1.1/dist/index.browser.js"></script><script defer src="script.min.js"></script>
 </head>
-<body>
-<div id="dnLoader"><div class="dn-lname">DARKNOVA</div><div class="dn-lsub">LOADING...</div><div class="dn-lbar"></div></div><div class="orb o1"></div>
-<div class="orb o2"></div>
-<div id="app">
-  <div id="hdr">
-    <div class="brand">
-      <div class="b-logo">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+<body><div class="shell">
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="DarkNova Obfuscator home"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M16 3 4 9.5 16 16l12-6.5L16 3Z"/><path d="M4 16l12 6.5L28 16M4 22.5 16 29l12-6.5"/></svg></span><span class="brand-copy"><strong>DARKNOVA</strong><small>OBFUSCATOR <i></i> BROWSER EDITION</small></span></a>
+    <div class="topbar-right"><span class="privacy-chip"><span class="privacy-dot"></span> LOCAL PROCESSING</span><button class="icon-button" id="themeBtn" type="button" aria-label="Switch to light theme" title="Toggle appearance"><svg class="sun-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg><svg class="moon-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.2 15.4A8.5 8.5 0 0 1 8.6 3.8 8.6 8.6 0 1 0 20.2 15.4Z"/></svg></button></div>
+  </header>
+  <main>
+    <section class="intro"><div class="eyebrow"><span class="eyebrow-line"></span> PRIVATE BY DESIGN <span class="eyebrow-sep">/</span> BUILT FOR JAVASCRIPT</div><div class="intro-row"><div><h1>Make your code <span>harder to read.</span></h1><p>Choose a protection level, transform locally, and keep your source on your device.</p></div><div class="intro-aside"><span class="aside-symbol">01</span><span>YOUR CODE<br>NEVER UPLOADS</span></div></div></section>
+    <section class="workbench" aria-label="Code obfuscator workbench">
+      <div class="workbench-top"><div class="mode-switch" role="tablist" aria-label="Input format"><button class="mode-tab active" type="button" role="tab" aria-selected="true" data-mode="js"><span class="mode-icon">JS</span> JavaScript</button><button class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="html"><span class="mode-icon html-icon"></></span> HTML scripts</button></div><div class="workbench-note"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.5 3.5 5v4.4c0 4.1 2.8 6.8 6.5 8.1 3.7-1.3 6.5-4 6.5-8.1V5L10 2.5Z"/><path d="m7.5 10 1.7 1.7 3.5-3.6"/></svg><span>Runs in this tab. No server upload.</span></div></div>
+      <div class="controls"><div class="preset-block"><div class="control-label"><span>PROTECTION PRESET</span><span class="label-hint">More protection can increase output size and runtime.</span></div><div class="preset-list" role="group" aria-label="Protection preset"><button class="preset" type="button" data-preset="balanced" aria-pressed="true"><span class="preset-name">Balanced</span><span class="preset-desc">Everyday use</span></button><button class="preset" type="button" data-preset="strong" aria-pressed="false"><span class="preset-name">Strong</span><span class="preset-desc">More transforms</span></button><button class="preset" type="button" data-preset="maximum" aria-pressed="false"><span class="preset-name">Maximum</span><span class="preset-desc">Heavier output</span></button></div></div><div class="control-actions"><label class="file-button" for="fileInput"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 13V3m0 0L6.5 6.5M10 3l3.5 3.5M3.5 12.5v3A1.5 1.5 0 0 0 5 17h10a1.5 1.5 0 0 0 1.5-1.5v-3"/></svg><span>Open file</span></label><input id="fileInput" type="file" accept=".js,.mjs,.cjs,.html,.htm,text/javascript,text/html"><button class="run-button" id="runBtn" type="button"><span class="run-spinner" aria-hidden="true"></span><svg class="run-bolt" viewBox="0 0 20 20" aria-hidden="true"><path d="M11.2 2.5 4.8 10h4.5l-.5 7.5 6.4-8h-4.6l.6-7Z"/></svg><span class="run-label">Obfuscate</span><span class="run-shortcut">⌘ ↵</span></button></div></div>
+      <div class="editors">
+        <section class="editor-card" aria-label="Source code"><div class="editor-head"><div class="editor-heading"><span class="editor-indicator source-indicator"></span><div><strong>Source</strong><small id="sourceName">Paste code or drop a file</small></div></div><div class="editor-actions"><button class="text-button" id="sampleBtn" type="button" title="Insert a small JavaScript example">Example</button><button class="text-button" id="pasteBtn" type="button" title="Paste from clipboard">Paste</button><button class="text-button muted-button" id="clearBtn" type="button" title="Clear source and output">Clear</button></div></div><div class="editor-body" id="sourceDrop"><div class="gutter" id="sourceLines" aria-hidden="true">1</div><textarea id="srcTa" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" aria-label="Source code input" placeholder="// Paste JavaScript here, or drop a .js / .html file&#10;// Your code is processed in this browser tab."></textarea><div class="drop-overlay" id="dropOverlay">Drop a JavaScript or HTML file</div></div><div class="editor-foot"><div class="editor-stats"><span><b id="inLines">1</b> lines</span><span><b id="inChars">0</b> chars</span></div><span class="language-badge" id="inputFormat">JS</span></div></section>
+        <section class="editor-card output-card" aria-label="Obfuscated output"><div class="editor-head"><div class="editor-heading"><span class="editor-indicator output-indicator"></span><div><strong>Protected output</strong><small id="outputHint">Ready when you are</small></div></div><div class="editor-actions"><button class="text-button" id="copyBtn" type="button" title="Copy output" disabled><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M13 7V5a1.5 1.5 0 0 0-1.5-1.5h-7A1.5 1.5 0 0 0 3 5v7A1.5 1.5 0 0 0 4.5 13H7"/></svg>Copy</button><button class="text-button" id="downloadBtn" type="button" title="Download output" disabled><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9m0 0 3.5-3.5M10 12 6.5 8.5M4 13v2.5A1.5 1.5 0 0 0 5.5 17h9a1.5 1.5 0 0 0 1.5-1.5V13"/></svg>Save</button></div></div><div class="editor-body output-body"><div class="gutter output-gutter" id="outputLines" aria-hidden="true">1</div><textarea id="outTa" readonly spellcheck="false" aria-label="Obfuscated output" placeholder="Your transformed code will appear here."></textarea></div><div class="editor-foot"><div class="editor-stats"><span><b id="outLines">—</b> lines</span><span><b id="outChars">—</b> chars</span></div><span class="size-badge" id="sizeBadge">AWAITING INPUT</span></div></section>
       </div>
-      <div>
-        <div class="b-name">DARKNOVA</div>
-        <div class="b-sub">CODE OBFUSCATOR &middot; UNLIMITED &middot; BROWSER-POWERED</div>
-      </div>
-    </div>
-    <div class="hdr-r">
-      <div class="pill"><span class="pdot"></span>NO LIMITS</div>
-      <button class="ibtn" id="themeBtn" title="Toggle theme">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      </button>
-    </div>
-  </div>
-  <div id="ctrl">
-    <div class="tab-row">
-      <button class="tab on" data-tab="js">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>JavaScript
-      </button>
-      <button class="tab" data-tab="html">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>HTML (scripts)
-      </button>
-    </div>
-    <div class="opts-row">
-      <div class="cgrp">
-        <div class="clbl">Protection Level</div>
-        <div class="prow" id="prow">
-          <div class="pp on" data-p="default">Default</div>
-          <div class="pp" data-p="low">Low</div>
-          <div class="pp" data-p="medium">Medium</div>
-          <div class="pp" data-p="high">High</div>
-          <div class="pp" data-p="extreme">Extreme &#128293;</div>
-        </div>
-      </div>
-      <div class="cgrp" style="margin-left:8px">
-        <div class="clbl">Upload File</div>
-        <label class="upload-btn" for="fileInput">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          UPLOAD .JS / .HTML
-        </label>
-        <input type="file" id="fileInput" accept=".js,.html,.htm">
-      </div>
-      <button class="run-btn" id="runBtn">
-        <div class="spin"></div>
-        <span class="btxt" style="display:flex;align-items:center;gap:6px">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>OBFUSCATE
-        </span>
-      </button>
-    </div>
-  </div>
-  <div id="prog"></div>
-  <div id="editors">
-    <div class="pane">
-      <div class="ptop">
-        <div class="ptitle"><span class="dot di"></span>SOURCE CODE</div>
-        <div class="pbtns">
-          <button class="mini" id="pasteBtn"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>PASTE</button>
-          <button class="mini" id="clearBtn"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg>CLEAR</button>
-        </div>
-      </div>
-      <div class="ed-wrap">
-        <div class="lns" id="inLN"><span>1</span></div>
-        <textarea id="srcTa" spellcheck="false" placeholder="// Paste your JS or HTML here, or upload a file above.&#10;// Runs 100% in your browser. No limits. Large files supported.&#10;&#10;function example(name) {&#10;  const msg = 'Hello ' + name;&#10;  return msg;&#10;}"></textarea>
-      </div>
-      <div class="pbot">
-        <div class="meta"><span id="inL">1 line</span><span id="inC">0 chars</span></div>
-        <div class="meta"><span id="inLang" style="color:var(--acc2)">JS</span></div>
-      </div>
-    </div>
-    <div class="pane" id="outPane">
-      <div class="ptop">
-        <div class="ptitle"><span class="dot do"></span>OBFUSCATED OUTPUT</div>
-        <div class="pbtns">
-          <button class="mini" id="copyBtn"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>COPY</button>
-          <button class="mini" id="dlBtn"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>SAVE</button>
-        </div>
-      </div>
-      <div class="ed-wrap">
-        <div class="lns" id="outLN"><span>1</span></div>
-        <textarea id="outTa" readonly spellcheck="false" placeholder="// Output appears here...&#10;// Press Ctrl+Enter or click OBFUSCATE"></textarea>
-      </div>
-      <div class="pbot">
-        <div class="meta"><span id="outL">&#8212;</span><span id="outC">&#8212;</span></div>
-        <div class="meta"><span id="outSz" style="color:var(--green)">READY</span></div>
-      </div>
-    </div>
-  </div>
-  <div id="sbar">
-    <span class="sdot" id="sdot"></span>
-    <span id="stxt">Ready &#8212; paste code or upload a file, then hit Obfuscate</span>
-    <div class="sr"><span class="kbd">Ctrl+Enter</span><span style="color:var(--txt3)">to run</span></div>
-  </div>
-</div>
-<div id="toast"></div>
-<script src="script.js"></script>
-
-<script>
-(function(){
-  function hide(){var l=document.getElementById("dnLoader");if(l){l.classList.add("dn-hidden");setTimeout(function(){if(l.parentNode)l.parentNode.removeChild(l);},500);}}
-  document.addEventListener("DOMContentLoaded",function(){setTimeout(hide,1600);});
-  window.addEventListener("load",function(){setTimeout(hide,300);});
-  setTimeout(hide,3000);
-})();
-</script>
-</body>
-</html>
-
-
+      <div class="statusbar"><div class="status-message" aria-live="polite"><span class="status-dot" id="statusDot"></span><span id="statusText">Ready — paste code or open a file to begin.</span></div><div class="status-right"><span id="ratioText">No output yet</span><span class="status-divider"></span><span class="keyboard-hint"><kbd>Ctrl</kbd>/<kbd>⌘</kbd> <kbd>Enter</kbd> to run</span></div></div>
+    </section>
+    <div class="page-note"><span class="note-mark">i</span><span>Obfuscation raises the barrier to casual inspection; it does not encrypt code or guarantee secrecy. Test protected builds before shipping.</span></div>
+  </main>
+  <footer class="site-footer"><span>© DARKNOVA</span><span>CODE STAYS IN YOUR BROWSER</span><span>BUILT FOR THE WEB</span></footer>
+</div><div class="toast" id="toast" role="status" aria-live="polite"></div></body></html>
