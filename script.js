@@ -1,0 +1,248 @@
+(() => {
+  "use strict";
+  const $ = (selector, root = document) => root.querySelector(selector);
+  const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+  const source = $("#srcTa");
+  const output = $("#outTa");
+  const runButton = $("#runBtn");
+  const modeButtons = $$(".mode-tab");
+  const presetButtons = $$(".preset");
+  const fileInput = $("#fileInput");
+  const toast = $("#toast");
+  let mode = "js";
+  let preset = "balanced";
+  let currentFilename = "";
+  let toastTimer;
+  const presets = {
+    balanced: { controlFlowFlattening: false, deadCodeInjection: false, stringArrayEncoding: [], stringArrayThreshold: 0.55, splitStrings: false, numbersToExpressions: false },
+    strong: { controlFlowFlattening: true, controlFlowFlatteningThreshold: 0.45, deadCodeInjection: true, deadCodeInjectionThreshold: 0.12, stringArrayEncoding: ["base64"], stringArrayThreshold: 0.75, splitStrings: true, splitStringsChunkLength: 8, numbersToExpressions: true },
+    maximum: { controlFlowFlattening: true, controlFlowFlatteningThreshold: 0.8, deadCodeInjection: true, deadCodeInjectionThreshold: 0.2, stringArrayEncoding: ["rc4"], stringArrayThreshold: 1, splitStrings: true, splitStringsChunkLength: 6, numbersToExpressions: true }
+  };
+  const baseOptions = { compact: true, identifierNamesGenerator: "hexadecimal", renameGlobals: false, stringArray: true, rotateStringArray: true, stringArrayShuffle: true, stringArrayIndexShift: true, simplify: true, selfDefending: false, debugProtection: false, disableConsoleOutput: false, unicodeEscapeSequence: false };
+
+  function setStatus(message, state) {
+    $("#statusText").textContent = message;
+    $("#statusDot").className = "status-dot" + (state ? " " + state : "");
+  }
+  function showToast(message, isError) {
+    toast.textContent = message;
+    toast.className = "toast show" + (isError ? " error" : "");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { toast.className = "toast"; }, 2600);
+  }
+  function linesFor(value) { return value.split(/\r\n|\r|\n/).length; }
+  function paintGutter(textarea, gutter) {
+    const count = Math.max(1, linesFor(textarea.value));
+    gutter.textContent = Array.from({ length: count }, (_, i) => i + 1).join("\n");
+    gutter.scrollTop = textarea.scrollTop;
+  }
+  function updateSourceStats() {
+    $("#inLines").textContent = linesFor(source.value).toLocaleString();
+    $("#inChars").textContent = source.value.length.toLocaleString();
+    paintGutter(source, $("#sourceLines"));
+  }
+  function updateOutputStats() {
+    const hasOutput = output.value.length > 0;
+    $("#copyBtn").disabled = !hasOutput;
+    $("#downloadBtn").disabled = !hasOutput;
+    if (!hasOutput) {
+      $("#outLines").textContent = "—";
+      $("#outChars").textContent = "—";
+      $("#sizeBadge").textContent = "AWAITING INPUT";
+      $("#ratioText").textContent = "No output yet";
+      $("#outputHint").textContent = "Ready when you are";
+      $("#outputLines").textContent = "1";
+      return;
+    }
+    $("#outLines").textContent = linesFor(output.value).toLocaleString();
+    $("#outChars").textContent = output.value.length.toLocaleString();
+    $("#sizeBadge").textContent = (output.value.length / 1024).toFixed(1) + " KB";
+    $("#ratioText").textContent = "Output is " + Math.round(output.value.length / Math.max(1, source.value.length) * 100) + "% of source size";
+    $("#outputHint").textContent = "Transformation complete";
+    paintGutter(output, $("#outputLines"));
+  }
+  function setMode(nextMode) {
+    mode = nextMode;
+    modeButtons.forEach(button => {
+      const active = button.dataset.mode === mode;
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-selected", active ? "true" : "false");
+    });
+    $("#inputFormat").textContent = mode === "js" ? "JS" : "HTML";
+    source.placeholder = mode === "js" ? "// Paste JavaScript here, or drop a .js / .html file\n// Your code is processed in this browser tab." : "<!-- Paste HTML with inline JavaScript here. -->\n<!-- External scripts and non-JavaScript script blocks are left unchanged. -->";
+    $("#outputHint").textContent = "Ready when you are";
+  }
+  function getOptions(sourceType) { return Object.assign({}, baseOptions, presets[preset], { sourceType: sourceType || "script" }); }
+  function obfuscateJavaScript(code, sourceType) { return window.JavaScriptObfuscator.obfuscate(code, getOptions(sourceType)).getObfuscatedCode(); }
+  function obfuscateHtml(html) {
+    let transformedCount = 0;
+    const result = html.replace(/(<script\b[^>]*>)([\s\S]*?)(<\/script\s*>)/gi, (whole, opening, body, closing) => {
+      if (/\bsrc\s*=/i.test(opening) || !body.trim()) return whole;
+      const typeMatch = opening.match(/\btype\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/i);
+      const scriptType = typeMatch ? (typeMatch[1] || typeMatch[2] || typeMatch[3] || "").toLowerCase() : "";
+      const isJavaScript = !scriptType || scriptType === "module" || /^(text|application)\/(javascript|ecmascript)(;.*)?$/.test(scriptType);
+      if (!isJavaScript) return whole;
+      transformedCount += 1;
+      return opening + obfuscateJavaScript(body, scriptType === "module" ? "module" : "script") + closing;
+    });
+    if (!transformedCount) throw new Error("No inline JavaScript was found. External scripts and data blocks are left unchanged.");
+    return { code: result, count: transformedCount };
+  }
+  function runObfuscation() {
+    const code = source.value;
+    if (!code.trim()) { setStatus("Add some source code before running the transform.", "error"); source.focus(); return; }
+    if (!window.JavaScriptObfuscator || typeof window.JavaScriptObfuscator.obfuscate !== "function") {
+      setStatus("The obfuscation engine did not load. Check your connection and refresh the page.", "error");
+      showToast("Could not load the JavaScript obfuscation engine.", true);
+      return;
+    }
+    runButton.disabled = true;
+    runButton.classList.add("loading");
+    $(".run-label").textContent = "Working";
+    $("#outputHint").textContent = "Transforming in this tab…";
+    $("#sizeBadge").textContent = "PROCESSING";
+    setStatus("Transforming locally — larger protection presets may take a moment.", "running");
+    setTimeout(() => {
+      try {
+        if (mode === "html") {
+          const result = obfuscateHtml(code);
+          output.value = result.code;
+          $("#outputHint").textContent = result.count + (result.count === 1 ? " inline script transformed" : " inline scripts transformed");
+        } else {
+          output.value = obfuscateJavaScript(code, "script");
+          $("#outputHint").textContent = "Transformation complete";
+        }
+        updateOutputStats();
+        setStatus("Done — output is ready to copy or save.", "ok");
+        showToast("Obfuscation complete.");
+      } catch (error) {
+        output.value = "";
+        updateOutputStats();
+        const message = error && error.message ? error.message : "The transform could not be completed.";
+        $("#outputHint").textContent = "Transform failed";
+        setStatus(message, "error");
+        showToast(message, true);
+      } finally {
+        runButton.disabled = false;
+        runButton.classList.remove("loading");
+        $(".run-label").textContent = "Obfuscate";
+      }
+    }, 35);
+  }
+  function clearAll() {
+    source.value = ""; output.value = ""; currentFilename = "";
+    $("#sourceName").textContent = "Paste code or drop a file";
+    updateSourceStats(); updateOutputStats();
+    setStatus("Ready — paste code or open a file to begin."); source.focus();
+  }
+  function insertSample() {
+    source.value = "function greet(name) {\n  const message = 'Hello, ' + name + '!';\n  return message;\n}\n\nconsole.log(greet('Nova'));";
+    currentFilename = "example.js";
+    $("#sourceName").textContent = currentFilename;
+    setMode("js"); updateSourceStats(); source.focus();
+    setStatus("Example loaded — choose a preset and run the transform.");
+  }
+  async function pasteFromClipboard() {
+    try {
+      if (!navigator.clipboard || !navigator.clipboard.readText) throw new Error("Clipboard access is unavailable here.");
+      const text = await navigator.clipboard.readText();
+      if (!text) { showToast("Clipboard is empty."); return; }
+      source.value = text; currentFilename = "";
+      $("#sourceName").textContent = "Pasted from clipboard";
+      updateSourceStats(); setStatus("Code pasted. Choose a preset and run the transform."); source.focus();
+    } catch (error) { showToast(error.message || "Clipboard permission was not granted.", true); }
+  }
+  async function copyOutput() {
+    if (!output.value) return;
+    try {
+      await navigator.clipboard.writeText(output.value);
+      showToast("Output copied to clipboard."); setStatus("Output copied to clipboard.", "ok");
+    } catch (error) {
+      output.focus(); output.select();
+      const copied = document.execCommand("copy");
+      output.setSelectionRange(0, 0);
+      if (copied) { showToast("Output copied to clipboard."); setStatus("Output copied to clipboard.", "ok"); }
+      else showToast("Select the output and copy it manually.", true);
+    }
+  }
+  function downloadOutput() {
+    if (!output.value) return;
+    const extension = mode === "html" ? "html" : "js";
+    const base = currentFilename ? currentFilename.replace(/\.(m?js|cjs|html?)$/i, "") : "obfuscated";
+    const filename = currentFilename ? base + ".obfuscated." + extension : base + "." + extension;
+    const blob = new Blob([output.value], { type: mode === "html" ? "text/html;charset=utf-8" : "text/javascript;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a"); link.href = url; link.download = filename;
+    document.body.appendChild(link); link.click(); link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000); showToast("Saved " + filename);
+  }
+  async function loadFile(file) {
+    if (!file) return;
+    const lower = file.name.toLowerCase();
+    if (!/\.(js|mjs|cjs|html|htm)$/.test(lower)) { setStatus("Choose a .js, .mjs, .cjs, .html, or .htm file.", "error"); showToast("That file type is not supported.", true); return; }
+    try {
+      source.value = await file.text(); currentFilename = file.name;
+      $("#sourceName").textContent = file.name;
+      setMode(/\.html?$/.test(lower) ? "html" : "js"); updateSourceStats();
+      output.value = ""; updateOutputStats();
+      setStatus("Loaded " + file.name + " locally. Nothing has been uploaded.", "ok");
+    } catch (error) { setStatus("Could not read that file.", "error"); showToast("Could not read that file.", true); }
+  }
+  function setPreset(nextPreset) {
+    preset = nextPreset;
+    presetButtons.forEach(button => button.setAttribute("aria-pressed", button.dataset.preset === preset ? "true" : "false"));
+    try { localStorage.setItem("dn_obf_preset", preset); } catch (_) {}
+  }
+
+  source.addEventListener("input", () => {
+    currentFilename = ""; $("#sourceName").textContent = source.value ? "Unsaved source" : "Paste code or drop a file";
+    updateSourceStats();
+    if (output.value) { output.value = ""; updateOutputStats(); }
+  });
+  source.addEventListener("scroll", () => paintGutter(source, $("#sourceLines")));
+  output.addEventListener("scroll", () => paintGutter(output, $("#outputLines")));
+  source.addEventListener("keydown", event => {
+    if (event.key === "Tab") { event.preventDefault(); source.setRangeText("  ", source.selectionStart, source.selectionEnd, "end"); updateSourceStats(); }
+  });
+  modeButtons.forEach(button => button.addEventListener("click", () => setMode(button.dataset.mode)));
+  presetButtons.forEach(button => button.addEventListener("click", () => setPreset(button.dataset.preset)));
+  $("#runBtn").addEventListener("click", runObfuscation);
+  $("#clearBtn").addEventListener("click", clearAll);
+  $("#sampleBtn").addEventListener("click", insertSample);
+  $("#pasteBtn").addEventListener("click", pasteFromClipboard);
+  $("#copyBtn").addEventListener("click", copyOutput);
+  $("#downloadBtn").addEventListener("click", downloadOutput);
+  fileInput.addEventListener("change", event => { loadFile(event.target.files && event.target.files[0]); fileInput.value = ""; });
+  const sourceCard = $("#sourceDrop").closest(".editor-card");
+  sourceCard.addEventListener("dragover", event => { event.preventDefault(); sourceCard.classList.add("dragover"); });
+  sourceCard.addEventListener("dragleave", event => { if (!sourceCard.contains(event.relatedTarget)) sourceCard.classList.remove("dragover"); });
+  sourceCard.addEventListener("drop", event => {
+    event.preventDefault(); sourceCard.classList.remove("dragover");
+    loadFile(event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0]);
+  });
+  $("#themeBtn").addEventListener("click", () => {
+    const root = document.documentElement;
+    const next = root.dataset.theme === "dark" ? "light" : "dark";
+    root.dataset.theme = next;
+    $("#themeBtn").setAttribute("aria-label", "Switch to " + (next === "dark" ? "light" : "dark") + " theme");
+    try { localStorage.setItem("dn_obf_theme", next); } catch (_) {}
+  });
+  document.addEventListener("keydown", event => {
+    if ((event.ctrlKey || event.metaKey) && event.key === "Enter") { event.preventDefault(); runObfuscation(); }
+  });
+  try {
+    const savedTheme = localStorage.getItem("dn_obf_theme");
+    if (savedTheme === "light" || savedTheme === "dark") document.documentElement.dataset.theme = savedTheme;
+    const savedPreset = localStorage.getItem("dn_obf_preset");
+    if (savedPreset && presets[savedPreset]) setPreset(savedPreset);
+  } catch (_) {}
+  $("#themeBtn").setAttribute("aria-label", "Switch to " + (document.documentElement.dataset.theme === "dark" ? "light" : "dark") + " theme");
+  updateSourceStats(); updateOutputStats();
+  if (!window.JavaScriptObfuscator) {
+    setStatus("Loading the obfuscation engine…");
+    window.addEventListener("load", () => {
+      if (!window.JavaScriptObfuscator) setStatus("The obfuscation engine could not be loaded. Check your connection and refresh.", "error");
+      else setStatus("Ready — paste code or open a file to begin.");
+    }, { once: true });
+  }
+})();
